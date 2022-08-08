@@ -1,5 +1,6 @@
 package com.dpwns.projectboard.controller;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@Disabled("Spring Data REST 통합테스트는 불필요하므로 제외시킴")
 @DisplayName("Data Rest - API 테스트")
 @Transactional
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest         // 필요한 Bean들 읽도록하고, DB와 관련된 테스트를 하게 만든 것이 무겁다.
 public class DataRestTest {
     private final MockMvc mockMvc;
 
