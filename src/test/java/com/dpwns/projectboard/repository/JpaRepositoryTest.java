@@ -3,6 +3,7 @@ package com.dpwns.projectboard.repository;
 
 import com.dpwns.projectboard.config.JpaConfig;
 import com.dpwns.projectboard.domain.Article;
+import com.dpwns.projectboard.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +24,24 @@ class JpaRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
 
     public JpaRepositoryTest(
             @Autowired ArticleCommentRepository articleCommentRepository,
-            @Autowired ArticleRepository articleRepository) {
+            @Autowired ArticleRepository articleRepository,
+            @Autowired UserAccountRepository userAccountRepository) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
     @Test
     void given_whenSelecting_thenWorksFine(){
         // given
-        long previousCount = articleRepository.count();
-        Article article = Article.of("new Article", "new Content", "#spring");
 
         // when
-        Article savedArticle = articleRepository.save(article);
         List<Article> articles = articleRepository.findAll();
 
         // then
@@ -52,7 +53,8 @@ class JpaRepositoryTest {
     void given_whenInserting_thenWorksFine(){
         // given
         long previousCount = articleRepository.count();
-        Article article = Article.of("new Article", "new Content", "#spring");
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("dpwns","pw", null, null, null));
+        Article article = Article.of(userAccount, "new Article", "new Content", "#spring");
 
         // when
         Article savedArticle = articleRepository.save(article);
