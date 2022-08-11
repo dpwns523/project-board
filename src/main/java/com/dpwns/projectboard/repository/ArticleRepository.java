@@ -4,11 +4,14 @@ import com.dpwns.projectboard.domain.Article;
 import com.dpwns.projectboard.domain.QArticle;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.awt.print.Pageable;
 
 @RepositoryRestResource
 public interface ArticleRepository extends
@@ -16,6 +19,8 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>,
         QuerydslBinderCustomizer<QArticle>
 {
+    Page<Article> findByTitle(String title, Pageable pageable);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticle root){
         bindings.excludeUnlistedProperties(true);       // QuerydslPredicateExecutor에 의해 article의 모든 스펙에 대한 검색이 가능함 -> 검색이 불가능하게 변경
