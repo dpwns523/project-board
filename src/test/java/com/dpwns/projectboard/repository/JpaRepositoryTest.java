@@ -45,7 +45,7 @@ class JpaRepositoryTest {
         List<Article> articles = articleRepository.findAll();
 
         // then
-        assertThat(articles).isNotNull().hasSize(124);
+        assertThat(articles).isNotNull().hasSize(123);
 
     }
     @DisplayName("insert 테스트")
@@ -53,7 +53,7 @@ class JpaRepositoryTest {
     void given_whenInserting_thenWorksFine(){
         // given
         long previousCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("dpwns","pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("newDpwns","pw", null, null, null));
         Article article = Article.of(userAccount, "new Article", "new Content", "#spring");
 
         // when
