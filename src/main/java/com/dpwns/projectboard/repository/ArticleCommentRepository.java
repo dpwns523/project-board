@@ -10,6 +10,8 @@ import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 // querydsl추가하니까 검색기능 작동
 @RepositoryRestResource
 public interface ArticleCommentRepository extends
@@ -17,6 +19,8 @@ public interface ArticleCommentRepository extends
         QuerydslPredicateExecutor<ArticleComment>,
         QuerydslBinderCustomizer<QArticleComment>
 {
+    List<ArticleComment> findByArticle_Id(Long articleId);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root) {
         bindings.excludeUnlistedProperties(true);       // QuerydslPredicateExecutor에 의해 article의 모든 스펙에 대한 검색이 가능함 -> 검색이 불가능하게 변경
