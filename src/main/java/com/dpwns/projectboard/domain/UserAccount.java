@@ -22,7 +22,6 @@ public class UserAccount extends AuditingFields {
     @Column(length = 50)
     private String userId;
 
-    @Setter @Column(nullable = false, length = 50) private String userId;
     @Setter @Column(nullable = false) private String userPassword;
 
     @Setter @Column(length = 100) private String email;
