@@ -21,7 +21,7 @@ public class JpaConfig {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())// SecurityContextHolder에는 security 정보를 모두 들고 있는 contenxt
                 .map(SecurityContext::getAuthentication)    // Context에는 Authenticate정보가 들어있음
                 .filter(Authentication::isAuthenticated)    // 인증되었는지
-                .map(Authentication::getAuthorities)    // Principal 정보를 가져옴
+                .map(Authentication::getPrincipal)    // Principal 정보를 가져옴
                 .map(BoardPrincipal.class::cast)        // Principal 정보를 캐스팅 (UserDetails의 구현체)
                 .map(BoardPrincipal::getUsername);
     }
