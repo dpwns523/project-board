@@ -35,6 +35,9 @@ public class SecurityConfig {
                 .logout()
                     .logoutSuccessUrl("/")
                     .and()
+                .and()
+                .csrf().disable()
+                .cors()
                 .build();
     }
 //    스프링부트 2.7부터는 이렇게 하는 방식을 권장하지 않고 필터체인에서 한번에 처리하는 것을 권장하며 Warning을 주고있음.
@@ -56,5 +59,20 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // TODO: front 웹 도메인으로 변경
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD","POST","GET","DELETE","PUT", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
