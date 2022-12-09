@@ -2,6 +2,7 @@ package com.dpwns.projectboard.service;
 
 import com.dpwns.projectboard.domain.Article;
 import com.dpwns.projectboard.domain.ArticleComment;
+import com.dpwns.projectboard.domain.Hashtag;
 import com.dpwns.projectboard.domain.UserAccount;
 import com.dpwns.projectboard.dto.ArticleCommentDto;
 import com.dpwns.projectboard.dto.UserAccountDto;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,13 +31,13 @@ class ArticleCommentServiceTest {
 
     @InjectMocks private ArticleCommentService sut;
 
-    @Mock private ArticleCommentRepository articleCommentRepository;
     @Mock private ArticleRepository articleRepository;
+    @Mock private ArticleCommentRepository articleCommentRepository;
     @Mock private UserAccountRepository userAccountRepository;
 
-    @DisplayName("게시글 ID로 조회하면 해당하는 댓글 리스트를 반환한다.")
+    @DisplayName("게시글 ID로 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
-    void givenArticleId_whenSearchingComment_thenReturnsArticleComments(){
+    void givenArticleId_whenSearchingArticleComments_thenReturnsArticleComments() {
         // Given
         Long articleId = 1L;
         ArticleComment expected = createArticleComment("content");
@@ -124,15 +126,15 @@ class ArticleCommentServiceTest {
     void givenArticleCommentId_whenDeletingArticleComment_thenDeletesArticleComment() {
         // Given
         Long articleCommentId = 1L;
-        String userId = "dpwns";
-        willDoNothing().given(articleCommentRepository).deleteByIdAndUserAccount_UserId(articleCommentId,userId);
+        String userId = "uno";
+        willDoNothing().given(articleCommentRepository).deleteByIdAndUserAccount_UserId(articleCommentId, userId);
+
         // When
         sut.deleteArticleComment(articleCommentId, userId);
 
         // Then
         then(articleCommentRepository).should().deleteByIdAndUserAccount_UserId(articleCommentId, userId);
     }
-
 
 
     private ArticleCommentDto createArticleCommentDto(String content) {
@@ -142,21 +144,21 @@ class ArticleCommentServiceTest {
                 createUserAccountDto(),
                 content,
                 LocalDateTime.now(),
-                "dpwns",
+                "uno",
                 LocalDateTime.now(),
-                "dpwns"
+                "uno"
         );
     }
 
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
-                "dpwns",
+                "uno",
                 "password",
-                "dpwns@mail.com",
-                "Dpwns",
+                "uno@mail.com",
+                "Uno",
                 "This is memo",
                 LocalDateTime.now(),
-                "dpwns",
+                "uno",
                 LocalDateTime.now(),
                 "uno"
         );
@@ -164,7 +166,7 @@ class ArticleCommentServiceTest {
 
     private ArticleComment createArticleComment(String content) {
         return ArticleComment.of(
-                Article.of(createUserAccount(), "title", "content", "hashtag"),
+                createArticle(),
                 createUserAccount(),
                 content
         );
@@ -172,22 +174,27 @@ class ArticleCommentServiceTest {
 
     private UserAccount createUserAccount() {
         return UserAccount.of(
-                "dpwns",
+                "uno",
                 "password",
-                "dpwns@email.com",
-                "Dpwns",
+                "uno@email.com",
+                "Uno",
                 null
         );
     }
 
     private Article createArticle() {
-        return Article.of(
+        Article article = Article.of(
                 createUserAccount(),
                 "title",
-                "content",
-                "#java"
+                "content"
         );
+        article.addHashtags(Set.of(createHashtag(article)));
+
+        return article;
     }
 
+    private Hashtag createHashtag(Article article) {
+        return Hashtag.of("java");
+    }
 
 }
