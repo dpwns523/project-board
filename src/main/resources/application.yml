@@ -13,10 +13,11 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/board
+#    url: jdbc:mysql://localhost:3306/board
+    url: jdbc:postgresql://localhost:5432/board
     username: dpwns
     password: 1111
-    dirver-class-name: com.mysql.cj.jdbc.Driver
+#    dirver-class-name: com.mysql.cj.jdbc.Driver // auto
   jpa:
     defer-datasource-initialization: true
     hibernate:
