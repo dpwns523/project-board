@@ -45,6 +45,7 @@ public class ArticleController {
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
         map.addAttribute("articles", articles);
         map.addAttribute("paginationBarNumbers", barNumbers);
+        // TODO: SearchType에 대한 중복 해결
         map.addAttribute("searchTypes", SearchType.values());
         map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
         return "articles/index";
