@@ -34,6 +34,23 @@ spring:
       base-path: /api
       detection-strategy: annotated
   thymeleaf3.decoupled-logic: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_OAUTH_CLIENT_ID}
+            client-secret: ${KAKAO_OAUTH_CLIENT_SECRET}
+            authorization-grant-type: authorization_code  # 사용자 권한 인증 방식 중 하나
+            redirect-uri: "{baseUrl}/login/oauth2/code/kakao"  # 인증 시 redirect 되는 주소
+            client-authentication-method: POST  # 클라이언트 인증 시 사용할 메서드
+        provider: # 사용자 정보를 카카오 uri OAuth 서버로 호출해서 가져오는 것
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize  # 권한을 알 떄 필요한 Uri
+            token-uri: https://kauth.kakao.com/oauth/token  # token을 발급받을 때 필요한 uri
+            user-info-uri: https://kapi.kakao.com/v2/user/me   # user 정보 uri, Oauth 서버로부터 가져오는 uri, db에 저장하지 않고..
+            user-name-attribute: id # user name을 확인하기 위한 식별자 -> json에서의 attribute를 지정
+
 
 ---
 spring:
