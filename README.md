@@ -30,6 +30,7 @@ Spring Boot
 
 ## 데모 페이지
 
+헤로쿠에서 무료 배포를 중단(무료로 서버를 제공하다보니 해킹과 같은 곳에 사용되어 중단하겠다고함)에 따라 서비스를 닫아놓았습니다.
 * https://project-board-dpwns.herokuapp.com
 
 ## Reference
